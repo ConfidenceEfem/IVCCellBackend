@@ -1,4 +1,4 @@
-import { registerANewCell, loginACell,registerAnAdmin,resendVerificationEmailOtp, resetPassword, loginAnAdmin, verifyEmailForCell, verifyEmailForAdmin, getAllCellsForOneAdmin, getAllCells, resetPasswordForAdmin, updateCellData, currentCellUser } from "../services/user.services"
+import { registerANewCell, loginACell,registerAnAdmin,resendVerificationEmailOtpForAdmin, resetPassword, loginAnAdmin, verifyEmailForCell, verifyEmailForAdmin, getAllCellsForOneAdmin, getAllCells, resetPasswordForAdmin, updateCellData, currentCellUser, oneCellUser, oneAdminUser } from "../services/user.services"
 import {NextFunction, Request, RequestHandler, Response} from "express"
 
 export const newCellRegistration : RequestHandler = (req: Request, res: Response, next: NextFunction) => registerANewCell(req,res,next)
@@ -13,7 +13,7 @@ export const verifyCellEmail : RequestHandler = (req: Request, res: Response, ne
 
 export const verifyAdminEmail : RequestHandler = (req: Request, res: Response, next: NextFunction) => verifyEmailForAdmin(req,res,next)
  
-export const resendOtpForEmailVerification : RequestHandler = (req: Request, res: Response, next: NextFunction) => resendVerificationEmailOtp(req,res,next)
+export const resendOtpForEmailVerification : RequestHandler = (req: Request, res: Response, next: NextFunction) => resendVerificationEmailOtpForAdmin(req,res,next)
 
 export const resetCellPassword : RequestHandler = (req: Request, res: Response, next: NextFunction) => resetPassword(req,res,next)
 
@@ -26,6 +26,10 @@ export const AllCells : RequestHandler = (req: Request, res: Response, next: Nex
 export const AllCellsForOneChurch : RequestHandler = (req: Request, res: Response, next: NextFunction) => getAllCellsForOneAdmin(req,res,next)
 
 export const CellUserProfile : RequestHandler = (req: Request, res: Response, next: NextFunction) => currentCellUser(req,res,next)
+
+export const GetCellById : RequestHandler = (req: Request, res: Response, next: NextFunction) => oneCellUser(req,res,next)
+
+export const GetAdminById : RequestHandler = (req: Request, res: Response, next: NextFunction) => oneAdminUser(req,res,next)
 
 export const suspendACellEndpoint: RequestHandler = (req: Request, res: Response, next: NextFunction) => currentCellUser(req,res,next)
 

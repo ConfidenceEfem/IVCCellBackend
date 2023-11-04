@@ -1,29 +1,35 @@
-// import multer from "multer";
-// import { Request } from "express";
+import multer from "multer";
+import { Request,Express } from "express";
 
-// const storage = multer.diskStorage({
-//   destination: (
-//     req: Request,
-//     file: Express.Multer.File,
-//     cb: (error: Error | null, destination: string) => void
-//   ) => {
-//     cb(null, "uploads");
-//   },
+// type RequestWithFile = Request & { file: multer.File };
+
+const storage = multer.diskStorage({
+  destination: (
+    req: Request,
+    file,
+    cb: (error: Error | null, destination: string) => void
+  ) => {
+    cb(null, "uploads");
+  },
 
   
-//   filename: (
-//     req: Request,
-//     file: Express.Multer.File,
-//     cb: (error: Error | null, destination: string) => void
-//   ) => {
-//     cb(null, file.originalname);
-//   },
-// });
+  filename: (
+    req: Request,
+    
+    file,
+    cb: (error: Error | null, destination: string) => void
+  ) => {
+    cb(null, file.originalname);
+  },
+ 
+});
 
-// expression.
 
-// const uploader = multer({
-//   storage: storage,
-// }).single("image");
+const uploader = multer({
+  storage: storage,
+}).single("image");
 
-// export default uploader;
+export default uploader;
+
+
+

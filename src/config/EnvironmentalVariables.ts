@@ -12,4 +12,7 @@ export const environmentalVariables = {
     REDIRECT_URL: process.env.REDIRECT_URL,
     CLIENT_ID: process.env.CLIENT_ID,
     REFRESH_TOKEN: process.env.REFRESH_TOKEN,
+    CLOUD_NAME: process.env.CLOUD_NAME,
+    CLOUD_API_KEY: process.env.CLOUD_API_KEY,
+    CLOUD_API_SECRET: process.env.CLOUD_API_SECRET,
 }

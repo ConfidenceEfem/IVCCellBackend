@@ -12,6 +12,7 @@ export const AskQuestion = AsyncHandler(async (req: Request<{},{}, IQuestion>, r
     const {text } = req.body
 
 
+
     const findCell = await CellModel.findById(req?.cell?._id)
     
 

@@ -10,7 +10,6 @@ import { AdminModel } from "../model/admin.model";
 export const ReplyQuestion = AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
 
   try {
-    console.log(req?.admin?._id)
    
     const findAmdin = await AdminModel.findById(req?.admin?._id)
 
