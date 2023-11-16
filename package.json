@@ -2,10 +2,10 @@
   "name": "ts_node_demo",
   "version": "1.0.0",
   "description": "ts_node_demo",
-  "main": "app.ts",
+  "main": "./src/app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node-dev --respawn --transpile-only ./app.ts"
+    "start": "ts-node-dev --respawn --transpile-only ./src/app.ts"
   },
   "author": "Confidence Efem",
   "license": "ISC",
