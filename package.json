@@ -11,9 +11,7 @@
   },
   "author": "Confidence Efem",
   "license": "ISC",
-  "engines": {
-    "node": ">=14.20.1"
-  },
+
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
