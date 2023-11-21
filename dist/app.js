@@ -1,0 +1,15 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const server_1 = require("./server");
+const EnvironmentalVariables_1 = require("./config/EnvironmentalVariables");
+const db_1 = require("./config/db");
+const app = (0, express_1.default)();
+(0, server_1.appConfig)(app);
+(0, db_1.connnectMongodb)();
+app.listen(EnvironmentalVariables_1.environmentalVariables.PORT, () => {
+    console.log("listening to port", EnvironmentalVariables_1.environmentalVariables.PORT);
+});

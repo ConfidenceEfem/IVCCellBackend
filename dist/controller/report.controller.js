@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.oneReport = exports.reportsForOneAdmin = exports.reportsForOneCellbyId = exports.reportsForOneCell = exports.AllReportOnServerForSuperAdmin = exports.WeeklyReport = void 0;
+const report_service_1 = require("../services/report.service");
+const WeeklyReport = (req, res, next) => (0, report_service_1.MakeReport)(req, res, next);
+exports.WeeklyReport = WeeklyReport;
+const AllReportOnServerForSuperAdmin = (req, res, next) => (0, report_service_1.AllReports)(req, res, next);
+exports.AllReportOnServerForSuperAdmin = AllReportOnServerForSuperAdmin;
+const reportsForOneCell = (req, res, next) => (0, report_service_1.AllCellReports)(req, res, next);
+exports.reportsForOneCell = reportsForOneCell;
+const reportsForOneCellbyId = (req, res, next) => (0, report_service_1.AllCellReportById)(req, res, next);
+exports.reportsForOneCellbyId = reportsForOneCellbyId;
+const reportsForOneAdmin = (req, res, next) => (0, report_service_1.AllAdminReports)(req, res, next);
+exports.reportsForOneAdmin = reportsForOneAdmin;
+const oneReport = (req, res, next) => (0, report_service_1.GetOneSignleReport)(req, res, next);
+exports.oneReport = oneReport;

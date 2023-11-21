@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const checkUser_1 = require("../utils/checkUser");
+const report_controller_1 = require("../controller/report.controller");
+const reportRouter = (0, express_1.Router)();
+reportRouter.post("/weekly-reports", checkUser_1.checkCellUser, report_controller_1.WeeklyReport);
+reportRouter.get("/reports", checkUser_1.checkCellUser, report_controller_1.reportsForOneCell);
+reportRouter.get("/reports/:id", report_controller_1.reportsForOneCellbyId);
+reportRouter.get("/church/all-reports", checkUser_1.checkAdminUser, report_controller_1.AllReportOnServerForSuperAdmin);
+reportRouter.get("/church/reports", checkUser_1.checkAdminUser, report_controller_1.reportsForOneAdmin);
+reportRouter.get("/church/reports/:id", checkUser_1.checkCellUser, report_controller_1.oneReport);
+exports.default = reportRouter;

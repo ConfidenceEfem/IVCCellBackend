@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.cellsUnderOneChurch = exports.currentAdmin = exports.AllAdmins = void 0;
+const admin_service_1 = require("../services/admin.service");
+const AllAdmins = (req, res, next) => (0, admin_service_1.getAllAdmin)(req, res, next);
+exports.AllAdmins = AllAdmins;
+const currentAdmin = (req, res, next) => (0, admin_service_1.currentAdminUser)(req, res, next);
+exports.currentAdmin = currentAdmin;
+const cellsUnderOneChurch = (req, res, next) => (0, admin_service_1.getAllCellsForUnderOneChurch)(req, res, next);
+exports.cellsUnderOneChurch = cellsUnderOneChurch;

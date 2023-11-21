@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const checkUser_1 = require("../utils/checkUser");
+const question_controller_1 = require("../controller/question.controller");
+const express_1 = require("express");
+const questionRouter = (0, express_1.Router)();
+questionRouter.post("/question", checkUser_1.checkCellUser, question_controller_1.AskQuestionEndPoint);
+questionRouter.get("/question/:id", question_controller_1.GetOneQuestionEndPoint);
+questionRouter.get("/all", checkUser_1.checkAdminUser, question_controller_1.getAllQuestionEndPoint);
+questionRouter.post("/delete/:id", question_controller_1.deleteQuestionEndPoint);
+questionRouter.get("/me", checkUser_1.checkCellUser, question_controller_1.findAllQuestionForOneCellEndPoint);
+exports.default = questionRouter;

@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteQuestionEndPoint = exports.getAllQuestionEndPoint = exports.findAllQuestionForOneCellEndPoint = exports.GetOneQuestionEndPoint = exports.AskQuestionEndPoint = void 0;
+const question_service_1 = require("../services/question.service");
+const AskQuestionEndPoint = (req, res, next) => (0, question_service_1.AskQuestion)(req, res, next);
+exports.AskQuestionEndPoint = AskQuestionEndPoint;
+const GetOneQuestionEndPoint = (req, res, next) => (0, question_service_1.getOneQuestion)(req, res, next);
+exports.GetOneQuestionEndPoint = GetOneQuestionEndPoint;
+const findAllQuestionForOneCellEndPoint = (req, res, next) => (0, question_service_1.findAllQuestionForOneCell)(req, res, next);
+exports.findAllQuestionForOneCellEndPoint = findAllQuestionForOneCellEndPoint;
+const getAllQuestionEndPoint = (req, res, next) => (0, question_service_1.getAllQuestions)(req, res, next);
+exports.getAllQuestionEndPoint = getAllQuestionEndPoint;
+const deleteQuestionEndPoint = (req, res, next) => (0, question_service_1.deleteQuestion)(req, res, next);
+exports.deleteQuestionEndPoint = deleteQuestionEndPoint;
