@@ -3,6 +3,7 @@ import {Router} from "express"
 import { checkAdminUser,checkCellUser } from "../utils/checkUser"
 import { WeeklyReport } from "../controller/report.controller"
 import uploader from "../config/multer"
+import { updateAdminData } from "@src/services/user.services"
 
 const userRouter = Router()
 userRouter.post("/register-cell",checkAdminUser, newCellRegistration)
@@ -15,7 +16,8 @@ userRouter.post("/verify-cellemail", verifyCellEmail)
 userRouter.post("/verify-adminemail", verifyAdminEmail)
 userRouter.post("/resend-otp", resendOtpForEmailVerification)
 userRouter.post("/reset-cellpassword",checkCellUser, resetCellPassword)
-userRouter.post("/update",checkCellUser,uploader, updateDataForCell)
+userRouter.patch("cell/update",checkCellUser,uploader, updateDataForCell)
+userRouter.patch("admin/update",checkAdminUser,uploader, updateAdminData)
 userRouter.post("/reset-adminpassword",checkAdminUser, resetAdminPassword)
 // userRouter.post("/weekly-reports",checkCellUser, WeeklyReport)
 userRouter.get("/church/cells",checkAdminUser, AllCellsForOneChurch)
