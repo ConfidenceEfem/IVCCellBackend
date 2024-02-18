@@ -639,7 +639,7 @@ export const updateAdminData = AsyncHandler(
    
 
       const updateCellData = await AdminModel.findByIdAndUpdate(
-        req?.cell?._id,
+        req?.admin?._id,
         { adminFullName: adminFullName,
           leaderShipPosition: leaderShipPosition,
           bio: bio,

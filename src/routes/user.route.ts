@@ -3,7 +3,7 @@ import {Router} from "express"
 import { checkAdminUser,checkCellUser } from "../utils/checkUser"
 import { WeeklyReport } from "../controller/report.controller"
 import uploader from "../config/multer"
-import { updateAdminData } from "@src/services/user.services"
+import { updateAdminData } from "../services/user.services"
 
 const userRouter = Router()
 userRouter.post("/register-cell",checkAdminUser, newCellRegistration)
