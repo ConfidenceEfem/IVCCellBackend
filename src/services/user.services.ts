@@ -33,8 +33,8 @@ const generateJwt = (payload: Object) => {
 // generate random password
 const generateRandomPassword = () => {
   const randomPassword = otpGenerator.generate(8, {
-    upperCaseAlphabets: true,
-    lowerCaseAlphabets: true,
+    upperCaseAlphabets: false,
+    lowerCaseAlphabets: false,
     digits: true,
     specialChars:false
   });
