@@ -122,7 +122,7 @@ export const registerAnAdmin = AsyncHandler(
       return res
         ?.status(HttpCode.SUCCESSFUL)
         .json({
-          message: "Created successfully",
+          message: "Created successfully with newest password",
           password: adminPasswordgenerated,
         });
     }
@@ -166,7 +166,7 @@ export const registerANewCell = AsyncHandler(
 
         res
           .status(HttpCode.OK)
-          .json({ message: "Cell created", data: cellPassword });
+          .json({ message: "Cell created with newest password", data: cellPassword });
       } else {
         next(
           new AppError({
