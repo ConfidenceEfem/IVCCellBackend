@@ -78,7 +78,7 @@ const sendTwoFactorAuthorizationByEmail = async (
 export const registerAnAdmin = AsyncHandler(
   async (req: Request<{}, {}, Iadmin>, res: Response, next: NextFunction) => {
     const { adminEmail, isAdmin, isSuperAdmin, name, adminPassword } = req.body;
-
+ 
     const findIfAdminExist = await AdminModel.findOne({ adminEmail });
     if (findIfAdminExist) {
       next(
@@ -95,13 +95,13 @@ export const registerAnAdmin = AsyncHandler(
       );
       // const hashPassword = await hashPasswordUsingBcrypt(adminPassword)
 
-      if (!req?.admin?.isSuperAdmin)
-        next(
-          new AppError({
-            message: "You don't have right to perform this operation",
-            httpCode: HttpCode.BAD_REQUEST,
-          })
-        );
+      // if (!req?.admin?.isSuperAdmin)
+      //   next(
+      //     new AppError({
+      //       message: "You don't have right to perform this operation",
+      //       httpCode: HttpCode.BAD_REQUEST,
+      //     })
+      //   );
 
       const createANewAdmin = await AdminModel.create({
         adminEmail,
