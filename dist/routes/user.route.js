@@ -7,6 +7,7 @@ const user_controller_1 = require("../controller/user.controller");
 const express_1 = require("express");
 const checkUser_1 = require("../utils/checkUser");
 const multer_1 = __importDefault(require("../config/multer"));
+const user_services_1 = require("../services/user.services");
 const userRouter = (0, express_1.Router)();
 userRouter.post("/register-cell", checkUser_1.checkAdminUser, user_controller_1.newCellRegistration);
 userRouter.post("/register-admin", checkUser_1.checkAdminUser, user_controller_1.newAdminRegistration);
@@ -16,7 +17,8 @@ userRouter.post("/verify-cellemail", user_controller_1.verifyCellEmail);
 userRouter.post("/verify-adminemail", user_controller_1.verifyAdminEmail);
 userRouter.post("/resend-otp", user_controller_1.resendOtpForEmailVerification);
 userRouter.post("/reset-cellpassword", checkUser_1.checkCellUser, user_controller_1.resetCellPassword);
-userRouter.post("/update", checkUser_1.checkCellUser, multer_1.default, user_controller_1.updateDataForCell);
+userRouter.post("/cell/update", checkUser_1.checkCellUser, multer_1.default, user_controller_1.updateDataForCell);
+userRouter.post("/admin/update", checkUser_1.checkAdminUser, multer_1.default, user_services_1.updateAdminData);
 userRouter.post("/reset-adminpassword", checkUser_1.checkAdminUser, user_controller_1.resetAdminPassword);
 // userRouter.post("/weekly-reports",checkCellUser, WeeklyReport)
 userRouter.get("/church/cells", checkUser_1.checkAdminUser, user_controller_1.AllCellsForOneChurch);

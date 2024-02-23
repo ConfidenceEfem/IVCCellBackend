@@ -39,8 +39,8 @@ const generateJwt = (payload) => {
 // generate random password
 const generateRandomPassword = () => {
     const randomPassword = otp_generator_1.default.generate(8, {
-        upperCaseAlphabets: true,
-        lowerCaseAlphabets: true,
+        upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
         digits: true,
         specialChars: false
     });
@@ -62,7 +62,6 @@ const sendTwoFactorAuthorizationByEmail = (otp, email, verificationKey) => __awa
 });
 // register an admin
 exports.registerAnAdmin = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     const { adminEmail, isAdmin, isSuperAdmin, name, adminPassword } = req.body;
     const findIfAdminExist = yield admin_model_1.AdminModel.findOne({ adminEmail });
     if (findIfAdminExist) {
@@ -75,11 +74,13 @@ exports.registerAnAdmin = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => _
         const adminPasswordgenerated = generateRandomPassword();
         const hashPassword = yield hashPasswordUsingBcrypt(adminPasswordgenerated);
         // const hashPassword = await hashPasswordUsingBcrypt(adminPassword)
-        if (!((_a = req === null || req === void 0 ? void 0 : req.admin) === null || _a === void 0 ? void 0 : _a.isSuperAdmin))
-            next(new AppError_1.AppError({
-                message: "You don't have right to perform this operation",
-                httpCode: AppError_1.HttpCode.BAD_REQUEST,
-            }));
+        // if (!req?.admin?.isSuperAdmin)
+        //   next(
+        //     new AppError({
+        //       message: "You don't have right to perform this operation",
+        //       httpCode: HttpCode.BAD_REQUEST,
+        //     })
+        //   );
         const createANewAdmin = yield admin_model_1.AdminModel.create({
             adminEmail,
             isAdmin,
@@ -93,14 +94,14 @@ exports.registerAnAdmin = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => _
                 httpCode: AppError_1.HttpCode.BAD_REQUEST,
             }));
         return res === null || res === void 0 ? void 0 : res.status(AppError_1.HttpCode.SUCCESSFUL).json({
-            message: "Created successfully",
+            message: "Created successfull",
             password: adminPasswordgenerated,
         });
     }
 }));
 // register a cell
 exports.registerANewCell = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b, _c, _d, _e;
+    var _a, _b, _c, _d;
     const { name, cellEmail } = req.body;
     const findUser = yield cell_model_1.CellModel.findOne({ cellEmail });
     if (findUser) {
@@ -110,10 +111,10 @@ exports.registerANewCell = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => 
         }));
     }
     else {
-        const findAdmin = yield admin_model_1.AdminModel.findById((_b = req === null || req === void 0 ? void 0 : req.admin) === null || _b === void 0 ? void 0 : _b._id);
+        const findAdmin = yield admin_model_1.AdminModel.findById((_a = req === null || req === void 0 ? void 0 : req.admin) === null || _a === void 0 ? void 0 : _a._id);
         const cellPassword = generateRandomPassword();
         const genSalt = yield hashPasswordUsingBcrypt(cellPassword);
-        if (((_c = req === null || req === void 0 ? void 0 : req.admin) === null || _c === void 0 ? void 0 : _c.isSuperAdmin) || ((_d = req === null || req === void 0 ? void 0 : req.admin) === null || _d === void 0 ? void 0 : _d.isAdmin)) {
+        if (((_b = req === null || req === void 0 ? void 0 : req.admin) === null || _b === void 0 ? void 0 : _b.isSuperAdmin) || ((_c = req === null || req === void 0 ? void 0 : req.admin) === null || _c === void 0 ? void 0 : _c.isAdmin)) {
             const newCell = new cell_model_1.CellModel({
                 cellEmail,
                 cellPassword: genSalt,
@@ -121,11 +122,11 @@ exports.registerANewCell = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => 
             });
             newCell.cellAdminId = findAdmin;
             yield newCell.save();
-            (_e = findAdmin === null || findAdmin === void 0 ? void 0 : findAdmin.cells) === null || _e === void 0 ? void 0 : _e.push(new mongoose_1.default.Types.ObjectId(newCell._id));
+            (_d = findAdmin === null || findAdmin === void 0 ? void 0 : findAdmin.cells) === null || _d === void 0 ? void 0 : _d.push(new mongoose_1.default.Types.ObjectId(newCell._id));
             yield (findAdmin === null || findAdmin === void 0 ? void 0 : findAdmin.save());
             res
                 .status(AppError_1.HttpCode.OK)
-                .json({ message: "Cell created", data: cellPassword });
+                .json({ message: "Cell created with newest password", data: cellPassword });
         }
         else {
             next(new AppError_1.AppError({
@@ -392,9 +393,9 @@ exports.resendVerificationEmailOtpForAdmin = (0, AsyncHandler_1.AsyncHandler)((r
 }));
 // reset password for cell
 exports.resetPassword = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _f;
+    var _e;
     const { currentPassword, newPassword } = req.body;
-    const userEmail = (_f = req === null || req === void 0 ? void 0 : req.cell) === null || _f === void 0 ? void 0 : _f.cellEmail;
+    const userEmail = (_e = req === null || req === void 0 ? void 0 : req.cell) === null || _e === void 0 ? void 0 : _e.cellEmail;
     const findUser = yield cell_model_1.CellModel.findOne({ cellEmail: userEmail });
     if (!findUser) {
         res.status(AppError_1.HttpCode.NOT_FOUND).json({ message: "User not found" });
@@ -417,9 +418,9 @@ exports.resetPassword = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __a
 }));
 // reset password for admin
 exports.resetPasswordForAdmin = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _g;
+    var _f;
     const { currentPassword, newPassword } = req.body;
-    const userEmail = (_g = req === null || req === void 0 ? void 0 : req.admin) === null || _g === void 0 ? void 0 : _g.adminEmail;
+    const userEmail = (_f = req === null || req === void 0 ? void 0 : req.admin) === null || _f === void 0 ? void 0 : _f.adminEmail;
     const findUser = yield admin_model_1.AdminModel.findOne({ adminEmail: userEmail });
     if (!findUser) {
         res.status(AppError_1.HttpCode.NOT_FOUND).json({ message: "User not found" });
@@ -442,12 +443,12 @@ exports.resetPasswordForAdmin = (0, AsyncHandler_1.AsyncHandler)((req, res, next
 }));
 //  update user cell data
 exports.updateCellData = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _h, _j;
+    var _g, _h;
     try {
         const { cellLeaderName, bio, maritalStatus } = req.body;
-        const imageFile = (_h = req === null || req === void 0 ? void 0 : req.file) === null || _h === void 0 ? void 0 : _h.path;
+        const imageFile = (_g = req === null || req === void 0 ? void 0 : req.file) === null || _g === void 0 ? void 0 : _g.path;
         const imageUpload = yield cloudinary_1.default.uploader.upload(imageFile);
-        const updateCellData = yield cell_model_1.CellModel.findByIdAndUpdate((_j = req === null || req === void 0 ? void 0 : req.cell) === null || _j === void 0 ? void 0 : _j._id, { cellLeaderName: cellLeaderName,
+        const updateCellData = yield cell_model_1.CellModel.findByIdAndUpdate((_h = req === null || req === void 0 ? void 0 : req.cell) === null || _h === void 0 ? void 0 : _h._id, { cellLeaderName: cellLeaderName,
             bio: bio,
             maritalStatus: maritalStatus,
             image: imageUpload === null || imageUpload === void 0 ? void 0 : imageUpload.secure_url,
@@ -462,12 +463,12 @@ exports.updateCellData = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __
 }));
 //  update admin  data
 exports.updateAdminData = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _k, _l;
+    var _j, _k;
     try {
         const { adminFullName, bio, maritalStatus, leaderShipPosition } = req.body;
-        const imageFile = (_k = req === null || req === void 0 ? void 0 : req.file) === null || _k === void 0 ? void 0 : _k.path;
+        const imageFile = (_j = req === null || req === void 0 ? void 0 : req.file) === null || _j === void 0 ? void 0 : _j.path;
         const imageUpload = yield cloudinary_1.default.uploader.upload(imageFile);
-        const updateCellData = yield admin_model_1.AdminModel.findByIdAndUpdate((_l = req === null || req === void 0 ? void 0 : req.cell) === null || _l === void 0 ? void 0 : _l._id, { adminFullName: adminFullName,
+        const updateCellData = yield admin_model_1.AdminModel.findByIdAndUpdate((_k = req === null || req === void 0 ? void 0 : req.admin) === null || _k === void 0 ? void 0 : _k._id, { adminFullName: adminFullName,
             leaderShipPosition: leaderShipPosition,
             bio: bio,
             maritalStatus: maritalStatus,
@@ -488,16 +489,16 @@ exports.getAllCells = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __awa
 }));
 // get cells for one admin
 exports.getAllCellsForOneAdmin = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _m;
-    const userId = (_m = req === null || req === void 0 ? void 0 : req.admin) === null || _m === void 0 ? void 0 : _m._id;
+    var _l;
+    const userId = (_l = req === null || req === void 0 ? void 0 : req.admin) === null || _l === void 0 ? void 0 : _l._id;
     const allCells = yield cell_model_1.CellModel.find({ cellAdminId: userId });
     res.status(AppError_1.HttpCode.OK).json({ message: "All Cells", data: allCells });
 }));
 // get current cell user
 exports.currentCellUser = (0, AsyncHandler_1.AsyncHandler)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _o;
+    var _m;
     try {
-        const userId = (_o = req === null || req === void 0 ? void 0 : req.cell) === null || _o === void 0 ? void 0 : _o._id;
+        const userId = (_m = req === null || req === void 0 ? void 0 : req.cell) === null || _m === void 0 ? void 0 : _m._id;
         console.log(userId);
         const currentCell = yield cell_model_1.CellModel.findById(userId);
         console.log(currentCell);

@@ -122,7 +122,7 @@ export const registerAnAdmin = AsyncHandler(
       return res
         ?.status(HttpCode.SUCCESSFUL)
         .json({
-          message: "Created successfully with newest password",
+          message: "Created successfull",
           password: adminPasswordgenerated,
         });
     }
